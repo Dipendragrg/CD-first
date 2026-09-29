@@ -79,7 +79,34 @@ window.CDSolver = (() => {
             btn.click();
             return ul.children.length > before;
           } catch { return false; } } } ],
-      hints: ['document.getElementById("add").addEventListener("click", () => { ... });', 'const li = document.createElement("li"); li.textContent = input.value; list.appendChild(li);', 'Bonus: localStorage.setItem("todos", JSON.stringify([...])).'] }
+      hints: ['document.getElementById("add").addEventListener("click", () => { ... });', 'const li = document.createElement("li"); li.textContent = input.value; list.appendChild(li);', 'Bonus: localStorage.setItem("todos", JSON.stringify([...])).'] },
+    { id: 'solve-p1', kind: 'py', level: 'Python', levelTask: 'p1', title: 'Print + variables',
+      brief: 'Python prints text. Make it say hello with your name in it.',
+      steps: ['1. Tab Python, keep: name = "Dipen".', '2. Add: print("Hello", name).', '3. Press Run (needs internet once for Python), then Check.'],
+      starter: { html: '', css: '', js: '', py: 'name = "Dipen"\n# print hello with name' }, tab: 'py', expected: 'Hello Dipen',
+      checks: [
+        { id: 'var', desc: 'Makes a name variable (=)', fn: (c) => has(c.py, /=/) },
+        { id: 'print', desc: 'Uses print(', fn: (c) => has(c.py, /print\s*\(/i) },
+        { id: 'out', desc: 'Output says "Hello Dipen"', out: 'Hello Dipen' } ],
+      hints: ['name = "Dipen"', 'print("Hello", name)', 'Output box must show: Hello Dipen'] },
+    { id: 'solve-p2', kind: 'py', level: 'Python', levelTask: 'p3', title: 'Loop sum 1 to 5',
+      brief: 'Loops repeat work. Add 1+2+3+4+5 with a for loop and print 15.',
+      steps: ['1. total = 0 first.', '2. for i in range(1, 6): total = total + i  (indent 2 spaces).', '3. print(total). Run + Check.'],
+      starter: { html: '', css: '', js: '', py: 'total = 0\n# loop 1..5 and add\nprint(total)' }, tab: 'py', expected: '15',
+      checks: [
+        { id: 'for', desc: 'Uses for ... in range(', fn: (c) => has(c.py, /for\s+\w+\s+in\s+range\s*\(/i) },
+        { id: 'add', desc: 'Adds to total', fn: (c) => has(c.py, /total\s*=\s*total\s*\+|total\s*\+=/i) },
+        { id: 'out', desc: 'Output is 15', out: '15' } ],
+      hints: ['for i in range(1, 6):', '    total = total + i  (indent matters!)', 'print(total)  → 15'] },
+    { id: 'solve-p3', kind: 'py', level: 'Python', levelTask: 'p4', title: 'Your first function',
+      brief: 'Functions pack reusable code. greet("Ram") must print "Namaste Ram".',
+      steps: ['1. def greet(name):  + indented print("Namaste", name).', '2. Call it: greet("Ram").', '3. Run + Check.'],
+      starter: { html: '', css: '', js: '', py: '# define greet + call greet("Ram")' }, tab: 'py', expected: 'Namaste Ram',
+      checks: [
+        { id: 'def', desc: 'Defines def greet(', fn: (c) => has(c.py, /def\s+greet\s*\(/i) },
+        { id: 'call', desc: 'Calls greet("Ram")', fn: (c) => has(c.py, /greet\s*\(\s*["']Ram["']\s*\)/) },
+        { id: 'out', desc: 'Output is "Namaste Ram"', out: 'Namaste Ram' } ],
+      hints: ['def greet(name):', '    print("Namaste", name)', 'greet("Ram")'] }
   ];
 
   const KB = [
@@ -95,11 +122,59 @@ window.CDSolver = (() => {
     { k: ['iframe', 'embed', 'game'], a: 'Embed a page: <iframe src="CD-first/index.html" style="width:100%;height:700px;border:0"></iframe>. Same-folder relative paths work on file:// too.' },
     { k: ['what to do', 'instruction', 'task', 'start', 'stuck'], a: 'Read the 3–4 numbered steps above the editor, press Run to see your preview, then Check. Failing checks turn into exact hints — ask me "hint".' },
     { k: ['hint'], a: 'HINT-MODE' },
+    { k: ['print', 'python', 'hello py'], a: 'Python prints with parentheses: print("Hello", name). No semicolons. Strings in "quotes".' },
+    { k: ['def', 'function python', 'greet'], a: 'def greet(name): then INDENTED body (2 spaces), then call greet("Ram"). Same indent = same block.' },
+    { k: ['range', 'loop python', 'for i'], a: 'range(1, 6) gives 1..5 (end excluded). for i in range(1, 6): total = total + i — indent the repeated line!' },
+    { k: ['indent', 'indented block', 'unexpected indent'], a: 'IndentationError = spaces wrong. After def/for/if lines ending with :, indent exactly. Never mix tabs and spaces.' },
+    { k: ['typing', 'wpm', 'type fast'], a: 'Typing Lab: pick Easy first, press Start, type exactly. 80%+ accuracy saves best. Speed comes after accuracy!' },
     { k: ['hello', 'hi', 'hey', 'namaste'], a: 'Hello! I am the Solver bot. Pick a task, write code, press Check — or ask me about flex, media queries, clicks, forms, localStorage.' }
   ];
 
-  let cur = TASKS[0], code = {}, lastResults = [];
+  let cur = TASKS[0], code = {}, lastResults = [], lastPyOut = '';
   const $ = (id) => document.getElementById(id);
+  // Guided path: HTML first, then CSS, JS, Python unlock in order. Game track stays open.
+  const ORDER = ['HTML', 'CSS', 'JavaScript', 'Python'];
+  const solvedIds = () => load(LS_SOLVED, {});
+  function isUnlocked(level) {
+    const i = ORDER.indexOf(level);
+    if (i <= 0) return true;
+    const prev = ORDER[i - 1], s = solvedIds();
+    return TASKS.filter((t) => t.level === prev).every((t) => s[t.id]);
+  }
+  function firstUnsolved(level) {
+    const s = solvedIds();
+    return TASKS.find((t) => t.level === level && !s[t.id]);
+  }
+  function lockMsg(level) {
+    const i = ORDER.indexOf(level), prev = ORDER[i - 1];
+    const next = firstUnsolved(prev);
+    return '🔒 <b>' + esc(level) + '</b> is locked — clear path, no confusion: finish ALL <b>' +
+      esc(prev) + '</b> tasks first.' + (next ? ' Start here: select <b>' + esc(next.title) +
+      '</b> above, follow its steps, Run + Check.' : ' Reload if you finished them.');
+  }
+  // Python runner via Pyodide CDN (lazy). Falls back to static checks offline.
+  const PY_URL = 'https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js';
+  const PY_INDEX = 'https://cdn.jsdelivr.net/pyodide/v0.26.4/full/';
+  let _py = null;
+  function loadScript(src, ms) {
+    return new Promise((res, rej) => {
+      const s = document.createElement('script');
+      const to = setTimeout(() => rej(new Error('timeout')), ms || 25000);
+      s.src = src; s.onload = () => { clearTimeout(to); res(); }; s.onerror = () => { clearTimeout(to); rej(new Error('cdn')); };
+      document.head.appendChild(s);
+    });
+  }
+  async function runPython(code) {
+    if (!_py) {
+      await loadScript(PY_URL, 25000);
+      _py = await loadPyodide({ indexURL: PY_INDEX });
+    }
+    let out = '';
+    _py.setStdout({ batched: (t) => { out += t + '\n'; } });
+    _py.setStderr({ batched: (t) => { out += t + '\n'; } });
+    _py.runPython(code);
+    return out;
+  }
 
   function buildDoc(c) {
     return '<!DOCTYPE html><html><head><meta charset="utf-8"><style>' + c.css +
@@ -133,21 +208,52 @@ window.CDSolver = (() => {
         return esc(e.a);
       }
     }
-    return 'Good question! I know: <b>flex, center, media/responsive, click, null errors, img, form, localStorage, loop, iframe</b> — or type <b>hint</b> for your current task: <b>' + esc(cur.title) + '</b>.';
+    return 'Good question! I know: <b>flex, center, media, click, null, img, form, localStorage, loop, python, typing</b> — or type <b>hint</b> for your current task: <b>' + esc(cur.title) + '</b>.';
   }
 
   async function runCheck() {
+    const c = code[cur.id];
+    if (cur.kind === 'py') {
+      $('solveVerdict').innerHTML = '<span style="color:var(--muted);font-size:.88rem;">🐍 Running Python (first run downloads it once, ~10s)...</span>';
+      try {
+        lastPyOut = await runPython(c.py || '');
+        showPyOut();
+      } catch (e) {
+        lastPyOut = '';
+        lastResults = cur.checks.filter((ch) => !ch.out).map((ch) => {
+          let pass = false;
+          try { pass = !!ch.fn(c, null); } catch { pass = false; }
+          return { ...ch, pass };
+        });
+        $('solveVerdict').innerHTML = lastResults.map((r) =>
+          '<div style="font-size:.88rem;margin:.25rem 0;">' + (r.pass ? '✅' : '❌') + ' ' + esc(r.desc) + '</div>').join('') +
+          '<div style="margin-top:.4rem;color:var(--muted);font-size:.85rem;">⚠️ Python engine needs internet (Pyodide CDN). Code checks above still count — output check skipped.</div>';
+        return;
+      }
+      const norm = lastPyOut.trim().replace(/\s+/g, ' ');
+      lastResults = cur.checks.map((ch) => {
+        let pass = false;
+        try { pass = ch.out ? norm.includes(ch.out) : !!ch.fn(c, null); } catch { pass = false; }
+        return { ...ch, pass };
+      });
+      renderVerdict();
+      return;
+    }
     runPreview();
     await new Promise((r) => setTimeout(r, 350));
     let doc = null;
     try { doc = $('solvePreview').contentDocument; } catch { doc = null; }
-    const c = code[cur.id];
     lastResults = cur.checks.map((ch) => {
       let pass = false;
       try { pass = !!ch.fn(c, doc); } catch { pass = false; }
       return { ...ch, pass };
     });
     renderVerdict();
+  }
+  function showPyOut() {
+    const f = $('solvePreview');
+    f.srcdoc = '<!DOCTYPE html><html><body style="margin:0;font-family:Consolas,monospace;background:#0f172a;color:#a7f3d0;padding:1rem;white-space:pre-wrap;">' +
+      esc(lastPyOut || '(no output — did you print?)') + '</body></html>';
   }
 
   function renderVerdict() {
@@ -170,65 +276,160 @@ window.CDSolver = (() => {
         } else {
           botSay('bot', '🎉 <b>' + esc(cur.title) + '</b> solved again! Already counted in Levels.');
         }
-      }
     }
+    refreshLocks();
+  }
   }
 
   function runPreview() {
     const f = $('solvePreview');
+    if (cur.kind === 'py') {
+      f.srcdoc = '<!DOCTYPE html><html><body style="margin:0;font-family:Consolas,monospace;background:#0f172a;color:#94a3b8;padding:1rem;">Press Run to execute Python.' +
+        (lastPyOut ? '<pre style="color:#a7f3d0;white-space:pre-wrap;">' + esc(lastPyOut) + '</pre>' : '') + '</body></html>';
+      return;
+    }
     f.srcdoc = buildDoc(code[cur.id]);
+  }
+  function refreshLocks() {
+    const sel = $('solveTask');
+    if (!sel) return;
+    const keep = cur.id;
+    sel.innerHTML = '';
+    TASKS.forEach((t) => {
+      const o = document.createElement('option');
+      o.value = t.id;
+      o.textContent = (isUnlocked(t.level) ? '' : '🔒 ') + t.level + ' — ' + t.title;
+      sel.appendChild(o);
+    });
+    sel.value = keep;
+    renderPath();
+  }
+  function renderPath() {
+    const el = $('solvePath');
+    if (!el) return;
+    const s = solvedIds();
+    el.innerHTML = ORDER.map((lv) => {
+      const tasks = TASKS.filter((t) => t.level === lv);
+      const done = tasks.filter((t) => s[t.id]).length;
+      const un = isUnlocked(lv);
+      const st = done === tasks.length ? 'done' : (un ? 'current' : 'locked');
+      const icon = st === 'done' ? '✅' : st === 'current' ? '▶' : '🔒';
+      const bg = st === 'done' ? '#dcfce7;border-color:#16a34a;' : st === 'current' ? '#eef2ff;border-color:#4f46e5;' : '#f1f5f9;opacity:.75;';
+      return `<button data-lv="${lv}" ${un ? '' : 'disabled'} style="background:${bg}border:1.5px solid var(--border);border-radius:999px;padding:.4rem .9rem;font-size:.8rem;font-weight:700;cursor:${un ? 'pointer' : 'not-allowed'};">${icon} ${lv} ${done}/${tasks.length}</button>`;
+    }).join('');
+    el.querySelectorAll('[data-lv]').forEach((b) => {
+      b.onclick = () => {
+        const nx = firstUnsolved(b.dataset.lv) || TASKS.find((t) => t.level === b.dataset.lv);
+        if (nx) { selectTask(nx.id); runPreview(); }
+      };
+    });
   }
 
   function selectTask(id) {
-    cur = TASKS.find((t) => t.id === id) || TASKS[0];
-    if (!code[cur.id]) code[cur.id] = { ...cur.starter };
+    const t = TASKS.find((x) => x.id === id) || TASKS[0];
+    if (!isUnlocked(t.level)) {
+      $('solveTask').value = cur.id;
+      botSay('bot', lockMsg(t.level));
+      speakReply(lockMsg(t.level));
+      return;
+    }
+    cur = t;
+    if (!code[cur.id]) code[cur.id] = { html: '', css: '', js: '', py: '', ...cur.starter };
     $('solveTask').value = cur.id;
-    $('solveLevel').textContent = cur.level;
+    $('solveLevel').textContent = cur.level + (cur.kind === 'py' ? ' 🐍' : '');
     $('solveSteps').innerHTML = '<b>' + esc(cur.title) + ':</b> ' + esc(cur.brief) +
       '<ol style="margin:.4rem 0 0 1.2rem;">' + cur.steps.map((s) => '<li>' + esc(s) + '</li>').join('') + '</ol>';
-    ['html', 'css', 'js'].forEach((t) => { $('code-' + t).value = code[cur.id][t]; });
+    ['html', 'css', 'js', 'py'].forEach((x) => {
+      const el = $('code-' + x);
+      if (el) { el.value = code[cur.id][x] || ''; el.style.display = x === cur.tab ? 'block' : 'none'; }
+      const tb = $('tab-' + x);
+      if (tb) tb.style.display = (cur.kind === 'py' ? x === 'py' : x !== 'py') ? '' : 'none';
+    });
     showTab(cur.tab);
     lastResults = [];
     $('solveVerdict').innerHTML = '<span style="color:var(--muted);font-size:.88rem;">Press Run, then Check.</span>';
     $('solveScore').textContent = '0/' + cur.checks.length + ' checks';
+    renderPath();
   }
 
   function showTab(t) {
-    ['html', 'css', 'js'].forEach((x) => {
-      $('code-' + x).style.display = x === t ? 'block' : 'none';
-      $('tab-' + x).classList.toggle('active', x === t);
+    ['html', 'css', 'js', 'py'].forEach((x) => {
+      const el = $('code-' + x), tb = $('tab-' + x);
+      if (el) el.style.display = x === t ? 'block' : 'none';
+      if (tb) tb.classList.toggle('active', x === t);
     });
+  }
+  function speakReply(html) {
+    try {
+      if (window.CDVoice && window.CDVoice.autoSpeak) window.CDVoice.speak(html);
+    } catch { /* voice optional */ }
   }
 
   function init(cfg) {
     const sel = $(cfg.taskSel);
-    TASKS.forEach((t) => {
-      const o = document.createElement('option');
-      o.value = t.id; o.textContent = t.level + ' — ' + t.title;
-      sel.appendChild(o);
-    });
     sel.onchange = () => { saveCode(); selectTask(sel.value); runPreview(); };
-    ['html', 'css', 'js'].forEach((t) => {
-      $('tab-' + t).onclick = () => { saveCode(); showTab(t); };
-      $('code-' + t).addEventListener('input', saveCode);
+    ['html', 'css', 'js', 'py'].forEach((t) => {
+      const tb = $('tab-' + t), ed = $('code-' + t);
+      if (tb) tb.onclick = () => { saveCode(); showTab(t); };
+      if (ed) {
+        ed.addEventListener('input', saveCode);
+        try { if (window.CDAutocomplete) window.CDAutocomplete.attach(ed, t); } catch { /* optional */ }
+      }
     });
     function saveCode() {
-      code[cur.id] = { html: $('code-html').value, css: $('code-css').value, js: $('code-js').value };
+      code[cur.id] = code[cur.id] || {};
+      ['html', 'css', 'js', 'py'].forEach((t) => {
+        const ed = $('code-' + t);
+        if (ed) code[cur.id][t] = ed.value;
+      });
     }
-    $(cfg.runBtn).onclick = () => { saveCode(); runPreview(); };
+    $(cfg.runBtn).onclick = () => { saveCode(); cur.kind === 'py' ? runCheckPyOnly() : runPreview(); };
+    async function runCheckPyOnly() {
+      $('solveVerdict').innerHTML = '<span style="color:var(--muted);font-size:.88rem;">🐍 Running Python...</span>';
+      try { lastPyOut = await runPython(code[cur.id].py || ''); showPyOut(); }
+      catch { lastPyOut = ''; runPreview(); }
+    }
     $(cfg.checkBtn).onclick = () => { saveCode(); runCheck(); };
-    $(cfg.resetBtn).onclick = () => selectTask(cur.id);
+    $(cfg.resetBtn).onclick = () => { lastPyOut = ''; selectTask(cur.id); runPreview(); };
     $(cfg.askBtn).onclick = () => {
       const q = $(cfg.askInput).value.trim();
       if (!q) return;
+      const a = answer(q);
       botSay('you', q);
-      botSay('bot', answer(q));
+      botSay('bot', a);
+      speakReply(a);
       $(cfg.askInput).value = '';
     };
     $(cfg.askInput).addEventListener('keydown', (e) => { if (e.key === 'Enter') $(cfg.askBtn).click(); });
+    // voice: mic + speaker toggle (optional, guarded)
+    if (cfg.micBtn && $(cfg.micBtn)) {
+      $(cfg.micBtn).onclick = () => {
+        if (!window.CDVoice || !window.CDVoice.supported) {
+          botSay('bot', '🎤 Voice input needs Chrome/Edge. Type your question instead — I read everything!');
+          return;
+        }
+        $(cfg.micBtn).textContent = '🔴...';
+        window.CDVoice.listen(
+          (text) => { $(cfg.micBtn).textContent = '🎤'; $(cfg.askInput).value = text; $(cfg.askBtn).click(); },
+          () => { $(cfg.micBtn).textContent = '🎤'; botSay('bot', '🎤 I did not catch that — check mic permission and try again.'); }
+        );
+      };
+    }
+    if (cfg.voiceBtn && $(cfg.voiceBtn)) {
+      const vb = $(cfg.voiceBtn);
+      const paint = () => { vb.textContent = window.CDVoice && window.CDVoice.autoSpeak ? '🔊' : '🔇'; };
+      vb.onclick = () => {
+        if (!window.CDVoice || !window.CDVoice.tts) { botSay('bot', '🔊 Voice replies need Chrome/Edge. My text answers still work!'); return; }
+        window.CDVoice.autoSpeak = !window.CDVoice.autoSpeak;
+        paint();
+        if (window.CDVoice.autoSpeak) window.CDVoice.speak('Voice replies on!');
+      };
+      paint();
+    }
+    refreshLocks();
     selectTask(TASKS[0].id);
     runPreview();
-    botSay('bot', 'Welcome to Solver Lab! Pick a task above, follow the steps, press <b>Run</b> then <b>Check</b>. Ask me anything — try “how do I center a div?”');
+    botSay('bot', 'Welcome to Solver Lab! Path: <b>HTML → CSS → JavaScript → Python</b>. Start with task 1, press <b>Run</b> then <b>Check</b>. Type to get VS Code-style hints, or ask me — try “how do I center a div?”');
   }
 
   return { init };

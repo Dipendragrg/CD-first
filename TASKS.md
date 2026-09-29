@@ -19,6 +19,14 @@ This file is fetched by `index.html` → `#taskLog`, so the site, repo, and each
 - Portfolio wires `CDSolver.init`; game/levels/submit untouched. Checker regexes unit-tested (7/7 pass).
 - Files: `CD-first/solver.js`, portfolio `index.html` (local-only).
 
+## 2026-09-30 — Typing Lab replaces game + voice bot + autocomplete + path locks + Python
+- `#typing` Typing Lab replaces game embed (game kept fullscreen): Easy/Medium/Hard paragraphs, live WPM/accuracy/char paint, best per difficulty.
+- Voice: 🎤 mic input (SpeechRecognition, Chrome/Edge) + 🔊 spoken bot replies (speechSynthesis toggle) via `voice.js`.
+- VS Code-style hints: `autocomplete.js` popup w/ docs, Tab/Enter accept, arrows, Esc — HTML/CSS/JS/Python editors.
+- Guided path, no confusion: HTML → CSS → JS → Python unlock in order (🔒 in picker + stepper), game track open; bot explains locked levels.
+- Python track: 3 solver tasks executed live via Pyodide CDN (lazy, offline fallback to static checks) + 5 Levels tasks + submit filter/option.
+- Files: `typing.js`, `voice.js`, `autocomplete.js`, `solver.js`, `levels-submit.js`, portfolio `index.html` (local-only).
+
 ## 2026-09-29 — Initial game + LEARN guide
 - Three.js Cube Arena: 1P vs bots, 2P local, online-ready relay.
 - Files: `index.html`, `client.js`, `style.css`, `server.js`, `package.json`, `README.md`, `LEARN.md`

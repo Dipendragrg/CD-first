@@ -26,7 +26,13 @@ window.CDLevels = (() => {
       { id: 't2', t: 'Change cube COLORS in client.js', xp: 25 },
       { id: 't3', t: 'Add +5 orbs in startGame()', xp: 25 },
       { id: 't4', t: 'Add a 5th bot player', xp: 25 },
-      { id: 't5', t: 'Submit your game tweak as a project below', xp: 25 } ] }
+      { id: 't5', t: 'Submit your game tweak as a project below', xp: 25 } ] },
+    { id: 'py', name: 'Python', color: '#22c55e', tasks: [
+      { id: 'p1', t: 'Print hello with a name variable', xp: 15 },
+      { id: 'p2', t: 'Variables + input() + f-strings', xp: 15 },
+      { id: 'p3', t: 'Loop 1 to 5 and print the sum (15)', xp: 20 },
+      { id: 'p4', t: 'Write + call a greet() function', xp: 20 },
+      { id: 'p5', t: 'Solve all 3 Python tasks in Solver Lab', xp: 25 } ] }
   ];
   const LS_TASKS = 'cd-levels-v1', LS_PROJ = 'cd-projects-v1';
   const load = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
