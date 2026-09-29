@@ -1,15 +1,23 @@
-// CD-first online relay server (Node + Socket.io)
-// Run: npm install && npm start  -> deploy to Render/Railway, paste URL in game.
+// CD-first game server: serves the actual game + online relay (Node + Socket.io)
+// Run: npm install && npm start -> open http://localhost:3000 (game loads, no blank text page)
 import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const app = express();
 const http = createServer(app);
 const io = new Server(http, { cors: { origin: '*' } });
 
-app.get('/', (req, res) => res.send('CD-first server running. Connect from index.html Online mode.'));
+// Serve game files (index.html, client.js, style.css) so localhost:3000 shows the GAME
+app.use(express.static(__dirname));
 app.get('/health', (req, res) => res.json({ ok: true, players: io.engine.clientsCount }));
+app.get('/server-info', (req, res) => res.send('CD-first server running. Game at / , health at /health.'));
 
 const positions = new Map();
 

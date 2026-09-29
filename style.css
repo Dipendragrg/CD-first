@@ -19,5 +19,12 @@ button:hover{background:#1d4ed8}
 #onlineBox input{width:100%;padding:.6rem;border-radius:8px;border:1px solid #374151;background:#020617;color:#fff}
 #onlineBox small{color:#94a3b8;display:block;margin-top:.4rem}
 #msg{margin-top:.5rem;min-height:1.2rem;color:#fbbf24;font-weight:600}
+#loading{position:fixed;top:0;left:0;right:0;z-index:50;background:#f59e0b;color:#000;text-align:center;padding:.5rem;font-weight:700}
+#status{background:#020617;border:1px solid #1e293b;border-radius:8px;padding:.4rem .7rem;margin:.5rem auto;font-size:.8rem;color:#93c5fd;pointer-events:none}
+#tasks{margin:.8rem auto;background:#020617;border:1px solid #1e293b;border-radius:12px;padding:.7rem;text-align:left;pointer-events:auto}
+#tasks summary{cursor:pointer;font-weight:700}
+#taskLog{white-space:pre-wrap;font-size:.8rem;color:#cbd5e1;max-height:180px;overflow:auto;margin:.5rem 0}
+.task-links{font-size:.85rem;margin-top:.3rem}
+.task-links a{color:#60a5fa}
 .hidden{display:none!important}
 @media(max-width:600px){#ui h1{font-size:1.5rem}.menu{flex-direction:column}}

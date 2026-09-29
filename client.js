@@ -15,7 +15,11 @@ let timeLeft = 90, running = false, socket = null;
 const ARENA = 14;
 const COLORS = [0x3b82f6, 0xef4444, 0x22c55e, 0xf59e0b];
 
-initThree();
+try { initThree(); } catch (e) {
+  document.getElementById('status').textContent = 'WebGL/Three.js failed: ' + e.message + ' — use Chrome/Edge + internet.';
+  throw e;
+}
+bootUI();
 
 document.getElementById('btn1p').onclick = () => startGame('1p');
 document.getElementById('btn2p').onclick = () => startGame('2p');
@@ -24,6 +28,20 @@ document.getElementById('btnOnline').onclick = () => {
   onlineBox.classList.toggle('hidden');
   startOnline();
 };
+
+function bootUI() {
+  const load = document.getElementById('loading');
+  if (load) setTimeout(() => load.style.display = 'none', 1200);
+  // auto-fill server URL when served by node (fixes localhost:3000 confusion)
+  const input = document.getElementById('serverUrl');
+  if (input && !input.value && location.origin.startsWith('http')) input.value = location.origin;
+  setStatus('Ready. Game canvas below. If blank: allow internet for unpkg.com + cdn.socket.io.');
+  // load per-task log into all-sections panel
+  fetch('TASKS.md').then(r => r.ok ? r.text() : 'TASKS.md not found yet.')
+    .then(t => document.getElementById('taskLog').textContent = t.slice(0, 4000))
+    .catch(() => document.getElementById('taskLog').textContent = 'Open TASKS.md in repo for task history.');
+}
+function setStatus(t) { document.getElementById('status').textContent = 'Status: ' + t; }
 
 function initThree() {
   scene = new THREE.Scene();
@@ -131,15 +149,23 @@ function startOnline() {
   } catch { setMsg('Online lib error — playing bots.'); startGame('1p'); }
 }
 
-function setMsg(t) { msg.textContent = t; }
+function setMsg(t) { msg.textContent = t; setStatus(t); logTask('msg: ' + t); }
+function logTask(t) {
+  try {
+    const k = 'cd-first-tasks';
+    const arr = JSON.parse(localStorage.getItem(k) || '[]');
+    arr.push(new Date().toISOString().slice(11, 19) + ' ' + t);
+    localStorage.setItem(k, JSON.stringify(arr.slice(-20)));
+  } catch {}
+}
 
 // ---- input ----
 const keys = {};
 function setupInput() {
   addEventListener('keydown', e => {
     keys[e.code] = true;
-    if (e.code === 'Space') dash(0);
-    if (e.code === 'Enter') dash(1);
+    if (e.code === 'Space') { e.preventDefault(); dash(0); }
+    if (e.code === 'Enter' && e.target.tagName !== 'INPUT') dash(1);
   });
   addEventListener('keyup', e => keys[e.code] = false);
   let sx = 0, sy = 0, dragging = false;
