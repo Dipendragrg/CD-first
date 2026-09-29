@@ -13,6 +13,12 @@ This file is fetched by `index.html` → `#taskLog`, so the site, repo, and each
 - **Verify:** `npm start` → open `http://localhost:3000` → game canvas visible → press 1P → cubes + orbs move. `/health` returns `{"ok":true}`.
 - **Files:** `server.js`, `index.html`, `style.css`, `client.js`, `TASKS.md`
 
+## 2026-09-30 — Solver Lab: instructions + code editor + bot verdict
+- New `#solve` section: task picker (6 tasks: HTML×2, CSS×2, JS×2), steps, HTML/CSS/JS tabs, Run preview (iframe), Check bot verdict ✅/❌ per check, Reset.
+- `solver.js` (new, repo-tracked): static + LIVE checks (bot really clicks your counter/todo in the preview), hints, helper bot KB (flex, center, media, click, null, img, form, localStorage, loop, iframe), solved tasks auto-award Levels XP (same localStorage).
+- Portfolio wires `CDSolver.init`; game/levels/submit untouched. Checker regexes unit-tested (7/7 pass).
+- Files: `CD-first/solver.js`, portfolio `index.html` (local-only).
+
 ## 2026-09-29 — Initial game + LEARN guide
 - Three.js Cube Arena: 1P vs bots, 2P local, online-ready relay.
 - Files: `index.html`, `client.js`, `style.css`, `server.js`, `package.json`, `README.md`, `LEARN.md`
