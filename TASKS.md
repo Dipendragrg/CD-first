@@ -27,6 +27,13 @@ This file is fetched by `index.html` → `#taskLog`, so the site, repo, and each
 - Python track: 3 solver tasks executed live via Pyodide CDN (lazy, offline fallback to static checks) + 5 Levels tasks + submit filter/option.
 - Files: `typing.js`, `voice.js`, `autocomplete.js`, `solver.js`, `levels-submit.js`, portfolio `index.html` (local-only).
 
+## 2026-09-30 — Learn section + earned ticks (no free checkboxes)
+- New `#learn` section (`lessons.js`): 9 beginner lessons incl. how-code-runs, CSS-connect bridge, JS-alive, Python, game-play. Each: Read + Practice → (solver/typing/submit/game) + manual ✓ ticks.
+- Levels ticks are now EARNED: rows show ✅/⬜ status + Learn / Code ▸ buttons; clicking opens lesson or Solver (`CDSolver.openLevel`); solver success live-refreshes Levels (`CDLevels.refresh`, no reload).
+- Typing adds Code mode (real snippets as practice material).
+- Verified: syntax all OK, module smoke 10/10, server serves learn+solver+typing, files ≤500 lines.
+- Files: `lessons.js`, `levels-submit.js`, `solver.js`, `typing.js`, portfolio `index.html` (local-only).
+
 ## 2026-09-29 — Initial game + LEARN guide
 - Three.js Cube Arena: 1P vs bots, 2P local, online-ready relay.
 - Files: `index.html`, `client.js`, `style.css`, `server.js`, `package.json`, `README.md`, `LEARN.md`

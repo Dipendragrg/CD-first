@@ -60,17 +60,28 @@ window.CDLevels = (() => {
       const pct = Math.round((lDone / lv.tasks.length) * 100);
       card.innerHTML = `<h4><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:${lv.color};margin-right:.4rem;"></span>${esc(lv.name)} <span class="tag">${lDone}/${lv.tasks.length}</span> <span class="tag">${lXp}/${lMax} XP</span></h4>
         <div class="bar" style="margin:.6rem 0;"><div class="bar-fill" style="width:${pct}%"></div></div>
-        ${lv.tasks.map((t) => `<label style="display:flex;gap:.5rem;align-items:flex-start;font-size:.92rem;margin:.35rem 0;cursor:pointer;color:var(--muted);">
-          <input type="checkbox" data-task="${t.id}" ${done[t.id] ? 'checked' : ''} style="margin-top:.25rem;" />
-          <span>${esc(t.t)} <b style="color:var(--text);">+${t.xp}</b></span></label>`).join('')}`;
+        ${lv.tasks.map((t) => {
+          const m = (window.CDLessons && window.CDLessons.MAP && window.CDLessons.MAP[t.id]) || {};
+          const st = done[t.id] ? '✅ earned' : '⬜ todo — click Code to earn it';
+          return `<div style="display:flex;gap:.5rem;align-items:flex-start;font-size:.92rem;margin:.45rem 0;">
+            <span style="flex:1;color:var(--muted);"><b style="color:var(--text);">${st.split(' — ')[0]}</b> ${esc(t.t)} <b style="color:var(--text);">+${t.xp}</b></span>
+            ${m.lesson ? `<button data-learn="${m.lesson}" title="Read the lesson" style="background:#fff;color:var(--text);border:1.5px solid var(--border);border-radius:999px;padding:.25rem .7rem;font-size:.75rem;font-weight:700;cursor:pointer;white-space:nowrap;">Learn</button>` : ''}
+            <button data-code="${t.id}" title="Open the coding interface" style="background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;border:none;border-radius:999px;padding:.25rem .7rem;font-size:.75rem;font-weight:700;cursor:pointer;white-space:nowrap;">Code ▸</button>
+          </div>`;
+        }).join('')}`;
       root.appendChild(card);
     });
-    root.querySelectorAll('input[data-task]').forEach((cb) => {
-      cb.onchange = () => {
-        const d = load(LS_TASKS, {});
-        if (cb.checked) d[cb.dataset.task] = 1; else delete d[cb.dataset.task];
-        save(LS_TASKS, d);
-        renderLevels(root, xpEl, badgeEl);
+    root.querySelectorAll('[data-learn]').forEach((b) => {
+      b.onclick = () => { try { window.CDLessons.openLesson(b.dataset.learn); } catch { location.hash = '#learn'; } };
+    });
+    root.querySelectorAll('[data-code]').forEach((b) => {
+      b.onclick = () => {
+        const m = (window.CDLessons && window.CDLessons.MAP && window.CDLessons.MAP[b.dataset.code]) || {};
+        try {
+          if (m.solver && window.CDSolver && window.CDSolver.openLevel) window.CDSolver.openLevel(b.dataset.code);
+          else if (m.lesson && window.CDLessons) window.CDLessons.openLesson(m.lesson);
+          else location.hash = '#solve';
+        } catch { location.hash = '#solve'; }
       };
     });
     if (xpEl) xpEl.textContent = `${xp} / ${total} XP`;
@@ -105,7 +116,13 @@ window.CDLevels = (() => {
     return el ? el.dataset.projfilter : f;
   }
 
+  let CFG = null;
+  function refresh() {
+    if (!CFG) return;
+    renderLevels(document.getElementById(CFG.levelsRoot), document.getElementById(CFG.xpEl), document.getElementById(CFG.badgeEl));
+  }
   function init(cfg) {
+    CFG = cfg;
     const root = document.getElementById(cfg.levelsRoot);
     const xpEl = document.getElementById(cfg.xpEl);
     const badgeEl = document.getElementById(cfg.badgeEl);
@@ -165,5 +182,5 @@ window.CDLevels = (() => {
       r.readAsText(f);
     };
   }
-  return { init, LEVELS };
+  return { init, LEVELS, refresh };
 })();

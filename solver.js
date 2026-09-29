@@ -278,7 +278,17 @@ window.CDSolver = (() => {
         }
     }
     refreshLocks();
+    try { if (window.CDLevels && window.CDLevels.refresh) window.CDLevels.refresh(); } catch { /* levels optional */ }
   }
+  }
+
+  function openLevel(lt) {
+    const t = TASKS.find((x) => x.levelTask === lt) || TASKS[0];
+    selectTask(t.id);
+    runPreview();
+    const s = document.getElementById('solve');
+    if (s) s.scrollIntoView({ behavior: 'smooth' });
+    else location.hash = '#solve';
   }
 
   function runPreview() {
@@ -432,5 +442,5 @@ window.CDSolver = (() => {
     botSay('bot', 'Welcome to Solver Lab! Path: <b>HTML → CSS → JavaScript → Python</b>. Start with task 1, press <b>Run</b> then <b>Check</b>. Type to get VS Code-style hints, or ask me — try “how do I center a div?”');
   }
 
-  return { init };
+  return { init, openLevel };
 })();

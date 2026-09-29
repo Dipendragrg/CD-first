@@ -7,7 +7,11 @@ window.CDTyping = (() => {
     medium: ['Learning HTML, CSS and JavaScript opens the door to building fast, modern websites for everyone.',
       'Consistency beats talent: type daily, build small projects, and review your mistakes carefully.'],
     hard: ['const score = items.filter(x => x.done).reduce((a, b) => a + b.xp, 0); // total XP',
-      'Debugging is twice as hard as writing code; clever code is hard to debug.']
+      'Debugging is twice as hard as writing code; clever code is hard to debug.'],
+    code: ['<h1>Hello</h1> <a href="https://site.com">Visit</a> <img src="pic.png" alt="pic">',
+      'nav { display: flex; gap: 1rem; justify-content: space-between; }',
+      'btn.addEventListener("click", () => { count.textContent = Number(count.textContent) + 1; });',
+      'for i in range(1, 6): total = total + i # add numbers 1 to 5']
   };
   const LS = 'cd-typing-best';
   const load = () => { try { return JSON.parse(localStorage.getItem(LS)) || {}; } catch { return {}; } };
