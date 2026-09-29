@@ -19,7 +19,8 @@ window.CDTyping = (() => {
   const LS = 'cd-typing-best';
   const load = () => { try { return JSON.parse(localStorage.getItem(LS)) || {}; } catch { return {}; } };
   const $ = (id) => document.getElementById(id);
-  let para = '', startT = 0, timer = null, active = false, idx = 0;
+  let para = '', startT = 0, timer = null, active = false;
+  const lastPick = {};
 
   function renderPara() {
     $('typePara').innerHTML = [...para].map((ch, i) =>
@@ -64,9 +65,13 @@ window.CDTyping = (() => {
     $('typeBest').textContent = 'Best: ' + (cur ? cur.wpm + ' WPM' : '—');
   }
   function start() {
-    const list = PARAS[$('typeDiff').value];
-    para = list[Math.floor(Math.random() * list.length)];
-    idx = (idx + 1) % 997;
+    const diff = $('typeDiff').value;
+    const list = PARAS[diff];
+    let i = Math.floor(Math.random() * list.length);
+    let guard = 0;
+    while (list.length > 1 && i === lastPick[diff] && guard++ < 10) i = Math.floor(Math.random() * list.length);
+    lastPick[diff] = i;
+    para = list[i];
     renderPara();
     $('typeInput').value = ''; $('typeInput').disabled = false; $('typeInput').focus();
     $('typeWpm').textContent = '0'; $('typeAcc').textContent = '100%';
