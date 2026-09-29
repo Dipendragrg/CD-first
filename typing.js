@@ -10,7 +10,7 @@ window.CDTyping = (() => {
       'If you want a responsive website, first write clean HTML for structure, then add CSS for beauty, and finally JavaScript to make every button come alive.'],
     hard: ['The experienced programmer refactored the tangled legacy codebase, extracting reusable functions until the once-fragile system finally passed every single test with confidence.',
       'Success rarely arrives overnight; it compounds quietly through disciplined practice, honest feedback, and the courage to rewrite what is broken instead of hiding it.',
-      'const total = cart.filter(item => item.stock > 0).map(item => item.price * item.qty).reduce((sum, n) => sum + n, 0); // checkout total'],
+      'The curious student opened the old broken radio to study every wire inside, learning more from one dead circuit than from ten perfect diagrams in a book.'],
     code: ['<section id="about"> <h2>About me</h2> <p>I am learning <a href="https://developer.mozilla.org">MDN docs</a> daily.</p> </section>',
       '.card { display: flex; flex-direction: column; gap: 0.75rem; padding: 1.5rem; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }',
       'form.addEventListener("submit", (e) => { e.preventDefault(); const name = document.getElementById("name").value.trim(); });',
