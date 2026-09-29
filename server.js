@@ -14,14 +14,13 @@ const app = express();
 const http = createServer(app);
 const io = new Server(http, { cors: { origin: '*' } });
 
-// Serve portfolio (parent) at / and game at /CD-first + /game
-// http://localhost:3000/ -> portfolio (Default Project/index.html) with game section
-// http://localhost:3000/CD-first/ and /game/ -> Cube Arena game
+// Single-site serving: portfolio (parent) at / with game in one section.
+// http://localhost:3000/ -> portfolio + embedded game section (the ONLY page you need).
+// Game files stay at /CD-first/* only as iframe source — not a separate site section.
 const parentDir = path.join(__dirname, '..');
 app.use(express.static(parentDir));
-app.use('/game', express.static(__dirname));
 app.get('/health', (req, res) => res.json({ ok: true, players: io.engine.clientsCount }));
-app.get('/server-info', (req, res) => res.send('CD-first server running. Game at / , health at /health.'));
+app.get('/server-info', (req, res) => res.send('CD-first server running. Open / for portfolio+game, /health for status.'));
 
 const positions = new Map();
 
@@ -37,5 +36,16 @@ io.on('connection', (socket) => {
   });
 });
 
-const PORT = process.env.PORT || 3000;
-http.listen(PORT, () => console.log(`CD-first server on :${PORT}`));
+const PORT = Number(process.env.PORT) || 3000;
+http.on('error', (e) => {
+  if (e.code === 'EADDRINUSE') {
+    console.error(`Port ${PORT} is busy. Another server is running — reuse it, or kill it:\n  Get-Process -Name node | Stop-Process -Force\nor run on another port:\n  $env:PORT=3001; npm run dev`);
+    process.exit(1);
+  }
+  throw e;
+});
+http.listen(PORT, '0.0.0.0', () => {
+  console.log(`CD-first single site on http://localhost:${PORT}/  (portfolio + game section)`);
+  console.log(`Health: http://localhost:${PORT}/health`);
+  console.log(`If browser says ERR_CONNECTION_REFUSED, this server is not running — run: npm run dev`);
+});
