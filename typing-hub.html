@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Typing Hub — CD-first</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:Inter,system-ui,Arial,sans-serif; background:#fafbff; color:#0f172a; line-height:1.65; padding:2rem 1.2rem 3rem; }
+  .wrap { max-width:760px; margin:auto; }
+  a.back { color:#4f46e5; font-weight:600; }
+  h1 { font-size:2rem; letter-spacing:-.5px; margin:.6rem 0 .3rem; }
+  h1 span { background:linear-gradient(135deg,#4f46e5,#7c3aed,#06b6d4); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  p.sub { color:#64748b; margin-bottom:1.2rem; }
+  .card { background:#fff; border:1px solid #e2e8f0; border-radius:16px; padding:1.4rem; box-shadow:0 10px 30px -18px rgba(79,70,229,.4); }
+  .row { display:flex; gap:.6rem; flex-wrap:wrap; align-items:center; margin-bottom:.8rem; }
+  select { flex:1; min-width:180px; padding:.8rem 1rem; border-radius:12px; border:1.5px solid #e2e8f0; font-size:.95rem; font-family:inherit; }
+  .tag { font-size:.75rem; font-weight:600; background:#f1f5f9; border:1px solid #e2e8f0; padding:.25rem .7rem; border-radius:999px; }
+  button { padding:.8rem 1.4rem; border-radius:999px; border:none; cursor:pointer; background:linear-gradient(135deg,#4f46e5,#7c3aed); color:#fff; font-weight:700; font-family:inherit; }
+  button.ghost { background:#fff; color:#0f172a; border:1.5px solid #e2e8f0; }
+  #typePara { font-size:1.05rem; line-height:2.1; background:#f1f5f9; border:1px solid #e2e8f0; border-radius:12px; padding:1rem 1.2rem; overflow-wrap:anywhere; word-break:break-word; max-height:260px; overflow-y:auto; }
+  textarea { width:100%; margin-top:.7rem; padding:.85rem 1rem; border-radius:12px; border:1.5px solid #e2e8f0; font-size:1rem; font-family:inherit; }
+  .stats { display:flex; gap:1.4rem; flex-wrap:wrap; margin-top:.7rem; font-weight:700; }
+  #typeResult { margin-top:.5rem; font-weight:600; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../index.html">← Back to portfolio</a>
+  <h1>Typing <span>Hub</span></h1>
+  <p class="sub">Fullscreen mode — pick difficulty, press Start, type exactly. Best saved in this browser.</p>
+  <div class="card">
+    <div class="row">
+      <select id="typeDiff"><option value="easy">Easy</option><option value="medium">Medium</option><option value="hard">Hard</option><option value="code">Code (practice)</option></select>
+      <span class="tag" id="typeBest">Best: —</span>
+      <button id="typeStart">Start</button>
+      <button id="typeRetry" class="ghost">Restart</button>
+    </div>
+    <div id="typePara"></div>
+    <textarea id="typeInput" rows="4" placeholder="Press Start, then type here..." disabled></textarea>
+    <div class="stats"><span>WPM <b id="typeWpm">0</b></span><span>Accuracy <b id="typeAcc">100%</b></span><span>Time <b id="typeTime">0s</b></span></div>
+    <div id="typeResult"></div>
+  </div>
+</div>
+<script src="typing.js"></script>
+<script>window.addEventListener('DOMContentLoaded', () => window.CDTyping && window.CDTyping.init());</script>
+</body>
+</html>
