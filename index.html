@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CD-first — Cube Arena (Three.js Multiplayer)</title>
+<link rel="stylesheet" href="style.css" />
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+</head>
+<body>
+<div id="ui">
+  <h1>CD-first <span>Cube Arena</span></h1>
+  <p class="sub">Three.js multiplayer arena — collect orbs, dash to bump rivals</p>
+  <div class="menu">
+    <button id="btn1p">▶ 1 Player vs Bots</button>
+    <button id="btn2p">👥 2 Players Local</button>
+    <button id="btnOnline">🌐 Online Multiplayer</button>
+  </div>
+  <div id="hud" class="hidden">
+    <div id="scores"></div>
+    <div id="timer">90</div>
+    <button id="btnRestart">Restart</button>
+  </div>
+  <div id="help">
+    <div><b>P1 (Blue):</b> WASD + Space dash</div>
+    <div><b>P2 (Red):</b> Arrows + Enter dash</div>
+    <div>Mobile: left-half drag = P1 move, tap right = dash</div>
+  </div>
+  <div id="onlineBox" class="hidden">
+    <input id="serverUrl" placeholder="wss://your-server.onrender.com (optional)" />
+    <small>Static GitHub Pages can't host realtime servers. Run <code>server.js</code> separately, paste URL here, then press Online. Without server it falls back to bots.</small>
+  </div>
+  <div id="msg"></div>
+</div>
+<div id="game"></div>
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+<script type="module" src="client.js"></script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Inter,system-ui,Arial,sans-serif;background:#0b1020;color:#e5e7eb;overflow-x:hidden}
+#game{position:fixed;inset:0}
+canvas{display:block}
+#ui{position:relative;z-index:10;max-width:760px;margin:0 auto;padding:1.2rem;text-align:center;pointer-events:none}
+#ui h1{font-size:2rem;letter-spacing:-.5px}
+#ui h1 span{color:#60a5fa}
+.sub{color:#94a3b8;margin:.3rem 0 1rem}
+.menu,#hud,#onlineBox{pointer-events:auto}
+.menu{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin-bottom:.8rem}
+button{background:#2563eb;border:none;color:#fff;padding:.7rem 1.2rem;border-radius:999px;font-weight:700;cursor:pointer}
+button:hover{background:#1d4ed8}
+#hud{display:flex;gap:1rem;align-items:center;justify-content:center;background:rgba(0,0,0,.55);border:1px solid #1f2937;border-radius:12px;padding:.6rem 1rem;margin:.5rem auto}
+#scores{display:flex;gap:.8rem;font-weight:700}
+#timer{font-size:1.4rem;font-weight:800;background:#111827;padding:.2rem .7rem;border-radius:8px}
+#btnRestart{background:#111827;border:1px solid #374151}
+#help{margin:.6rem auto;font-size:.85rem;color:#9ca3af;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;pointer-events:none}
+#onlineBox{margin:.6rem auto;background:#111827;border:1px solid #374151;border-radius:12px;padding:.7rem}
+#onlineBox input{width:100%;padding:.6rem;border-radius:8px;border:1px solid #374151;background:#020617;color:#fff}
+#onlineBox small{color:#94a3b8;display:block;margin-top:.4rem}
+#msg{margin-top:.5rem;min-height:1.2rem;color:#fbbf24;font-weight:600}
+.hidden{display:none!important}
+@media(max-width:600px){#ui h1{font-size:1.5rem}.menu{flex-direction:column}}
