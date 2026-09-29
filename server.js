@@ -14,8 +14,12 @@ const app = express();
 const http = createServer(app);
 const io = new Server(http, { cors: { origin: '*' } });
 
-// Serve game files (index.html, client.js, style.css) so localhost:3000 shows the GAME
-app.use(express.static(__dirname));
+// Serve portfolio (parent) at / and game at /CD-first + /game
+// http://localhost:3000/ -> portfolio (Default Project/index.html) with game section
+// http://localhost:3000/CD-first/ and /game/ -> Cube Arena game
+const parentDir = path.join(__dirname, '..');
+app.use(express.static(parentDir));
+app.use('/game', express.static(__dirname));
 app.get('/health', (req, res) => res.json({ ok: true, players: io.engine.clientsCount }));
 app.get('/server-info', (req, res) => res.send('CD-first server running. Game at / , health at /health.'));
 
