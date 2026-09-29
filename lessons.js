@@ -15,8 +15,6 @@ window.CDLessons = (() => {
     c3: { lesson: 'css-responsive', solver: 'solve-c2' }, c4: { lesson: 'css-connect' }, c5: { lesson: 'css-connect' },
     j1: { lesson: 'js-alive', solver: 'solve-j1' }, j2: { lesson: 'js-data', solver: 'solve-j2' },
     j3: { lesson: 'js-data' }, j4: { lesson: 'html-form' }, j5: { lesson: 'js-alive' },
-    t1: { lesson: 'game-play' }, t2: { lesson: 'game-play' }, t3: { lesson: 'game-play' },
-    t4: { lesson: 'game-play' }, t5: { lesson: 'game-play' },
     p1: { lesson: 'py-start', solver: 'solve-p1' }, p2: { lesson: 'py-start' },
     p3: { lesson: 'py-start', solver: 'solve-p2' }, p4: { lesson: 'py-start', solver: 'solve-p3' }, p5: { lesson: 'py-start' }
   };
@@ -41,7 +39,7 @@ window.CDLessons = (() => {
       body: `<p>A <code>&lt;form&gt;</code> wraps inputs + a submit button. <code>type="email"</code> + <code>required</code> = free validation by the browser itself.</p>
         <p>Normally a form <i>sends</i> data to a server. Here we stop that and handle it in JavaScript instead (coming in JS lessons).</p>` },
     { id: 'css-connect', level: 'CSS', title: 'Connecting CSS to HTML (the bridge)',
-      mins: '6 min', ticks: [{ id: 'c2', label: 'I built a 3-card grid' }, { id: 'c4', label: 'I animated a button' }, { id: 'c5', label: 'I recolored the arena HUD' }],
+      mins: '6 min', ticks: [{ id: 'c2', label: 'I built a 3-card grid' }, { id: 'c4', label: 'I animated a button' }, { id: 'c5', label: 'I recolored the typing hub' }],
       practice: { kind: 'solver', ref: 'c1', label: 'Code: flexbox navbar' },
       body: `<p>3 ways, same idea — <b>selectors find HTML, rules paint it</b>:</p>
         <p>1. Inline: <code>&lt;p style="color:red"&gt;</code> (quick, messy).</p>
@@ -57,7 +55,7 @@ window.CDLessons = (() => {
       body: `<p>JavaScript runs <b>after</b> the HTML exists. Two moves do 90% of everything:</p>
         <p>1. <b>Find:</b> <code>document.getElementById("count")</code>. Wrong id → <code>null</code> → errors. Ids must match exactly.</p>
         <p>2. <b>React:</b> <code>btn.addEventListener("click", () => { ... })</code> — "when clicked, run this".</p>
-        <p>The arena bots? Same idea: <code>moveBot()</code> runs every frame and steers toward orbs. Open <code>client.js</code> and change <code>10 * dt</code> — you just modded a game.</p>` },
+        <p>Same idea runs this whole site: the Solver bot clicks your buttons for real, the typing lab paints letters as you type. Small functions wired to clicks — that is all a web app is.</p>` },
     { id: 'js-data', level: 'JavaScript', title: 'Creating elements + remembering data',
       mins: '6 min', ticks: [{ id: 'j3', label: 'I fetched JSON and rendered it' }, { id: 'j4', label: 'I validated a form with JS' }],
       practice: { kind: 'solver', ref: 'j2', label: 'Code: mini todo' },
@@ -68,11 +66,6 @@ window.CDLessons = (() => {
       practice: { kind: 'solver', ref: 'p1', label: 'Code: print + variables' },
       body: `<p>No browser here — an <b>interpreter</b> runs your file line by line. <code>print("Hi")</code> shows text. Variables are just named boxes: <code>name = "Dipen"</code>.</p>
         <p><b>Indentation is law:</b> after <code>def / for / if</code> lines ending with <code>:</code>, indent the block. Wrong spaces = crash. Our Run button executes real Python (needs internet once).</p>` },
-    { id: 'game-play', level: 'Game', title: 'Play + mod the arena',
-      mins: '5 min', ticks: [{ id: 't1', label: 'I won a 90s arena round' }, { id: 't2', label: 'I changed cube COLORS' }, { id: 't3', label: 'I added +5 orbs' }, { id: 't4', label: 'I added a 5th bot' }, { id: 't5', label: 'I submitted my game tweak' }],
-      practice: { kind: 'game', label: 'Play fullscreen' },
-      body: `<p>Run <code>npm run dev</code>, open the game: P1 <b>WASD + Space</b>, P2 <b>arrows + Enter</b>. Collect gold orbs, dash to bump rivals, 90 seconds.</p>
-        <p>Mod it in <code>client.js</code>: <code>COLORS</code> (cube colors), <code>10</code> orbs in <code>startGame</code>, <code>10 * dt</code> bot speed in <code>moveBot</code>. Then submit your tweak below.</p>` }
   ];
 
   function practiceBtn(l) {
@@ -141,7 +134,7 @@ window.CDLessons = (() => {
     });
     root.querySelectorAll('[data-goto]').forEach((b) => { b.onclick = () => { location.hash = b.dataset.goto; }; });
     root.querySelectorAll('[data-game]').forEach((b) => {
-      b.onclick = () => window.open('CD-first/index.html', '_blank');
+      b.onclick = () => window.open('CD-first/typing-hub.html', '_blank');
     });
   }
 

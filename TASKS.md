@@ -41,6 +41,11 @@ This file is fetched by `index.html` → `#taskLog`, so the site, repo, and each
 - Beginner: lesson-1 practice button (typing), readable inline code style, "now" line points to lesson 1.
 - Files: `lessons.js`, portfolio `index.html` (local-only).
 
+## 2026-09-30 — Removed Cube Arena
+- Deleted game page + engine (`CD-first/index.html`, `client.js`, `style.css`); site is now typing + solver + levels only.
+- Cleaned all live refs: Levels tracks (HTML/CSS/JS/Python), lessons, solver bot example, package description, server messages. History docs untouched.
+- Typing Hub is the fullscreen practice page; socket relay kept in server for later.
+
 ## 2026-09-29 — Initial game + LEARN guide
 - Three.js Cube Arena: 1P vs bots, 2P local, online-ready relay.
 - Files: `index.html`, `client.js`, `style.css`, `server.js`, `package.json`, `README.md`, `LEARN.md`

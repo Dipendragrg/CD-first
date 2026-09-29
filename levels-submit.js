@@ -8,25 +8,19 @@ window.CDLevels = (() => {
       { id: 'h2', t: 'Create a form (name, email, message) with validation', xp: 10 },
       { id: 'h3', t: 'Make a table (e.g. scoreboard) with thead/tbody', xp: 10 },
       { id: 'h4', t: 'Use semantic tags: header, nav, main, section, footer', xp: 10 },
-      { id: 'h5', t: 'Embed the Cube Arena game in an iframe section', xp: 10 } ] },
+      { id: 'h5', t: 'Embed the typing hub in an iframe section', xp: 10 } ] },
     { id: 'css', name: 'CSS', color: '#38bdf8', tasks: [
       { id: 'c1', t: 'Style a navbar with flexbox (like this portfolio)', xp: 15 },
       { id: 'c2', t: 'Build a 3-card grid with hover effects', xp: 15 },
       { id: 'c3', t: 'Make the page responsive with a media query', xp: 15 },
       { id: 'c4', t: 'Add a button animation / transition', xp: 15 },
-      { id: 'c5', t: 'Recolor the arena HUD in style.css', xp: 15 } ] },
+      { id: 'c5', t: 'Recolor the typing hub page', xp: 15 } ] },
     { id: 'js', name: 'JavaScript', color: '#facc15', tasks: [
       { id: 'j1', t: 'Counter app: + / - buttons update the DOM', xp: 20 },
       { id: 'j2', t: 'Todo list saved in localStorage', xp: 20 },
       { id: 'j3', t: 'Fetch JSON (e.g. TASKS.md/health) and render it', xp: 20 },
       { id: 'j4', t: 'Form validation with error messages', xp: 20 },
-      { id: 'j5', t: 'Change bot speed in client.js moveBot()', xp: 20 } ] },
-    { id: 'three', name: 'Three.js / Game', color: '#a78bfa', tasks: [
-      { id: 't1', t: 'Run the arena and win a 90s round', xp: 25 },
-      { id: 't2', t: 'Change cube COLORS in client.js', xp: 25 },
-      { id: 't3', t: 'Add +5 orbs in startGame()', xp: 25 },
-      { id: 't4', t: 'Add a 5th bot player', xp: 25 },
-      { id: 't5', t: 'Submit your game tweak as a project below', xp: 25 } ] },
+      { id: 'j5', t: 'Change a paragraph in typing.js and reload', xp: 20 } ] },
     { id: 'py', name: 'Python', color: '#22c55e', tasks: [
       { id: 'p1', t: 'Print hello with a name variable', xp: 15 },
       { id: 'p2', t: 'Variables + input() + f-strings', xp: 15 },
@@ -40,7 +34,7 @@ window.CDLevels = (() => {
   const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
   function badge(xp) {
-    if (xp >= 450) return '🏆 Arena Master';
+    if (xp >= 450) return '🏆 Code Master';
     if (xp >= 250) return '🥈 Developer';
     if (xp >= 100) return '🥉 Builder';
     return '🌱 Rookie';

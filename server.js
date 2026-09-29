@@ -1,5 +1,5 @@
-// CD-first game server: serves the actual game + online relay (Node + Socket.io)
-// Run: npm install && npm start -> open http://localhost:3000 (game loads, no blank text page)
+// CD-first learning-site server: portfolio + typing/solver/levels (Node + Socket.io relay kept for later)
+// Run: npm install && npm run dev -> open http://localhost:3000/ (single site, no blank text page)
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -14,13 +14,13 @@ const app = express();
 const http = createServer(app);
 const io = new Server(http, { cors: { origin: '*' } });
 
-// Single-site serving: portfolio (parent) at / with game in one section.
-// http://localhost:3000/ -> portfolio + embedded game section (the ONLY page you need).
-// Game files stay at /CD-first/* only as iframe source — not a separate site section.
+// Single-site serving: portfolio (parent) at / with typing + solver + levels sections.
+// http://localhost:3000/ -> the ONLY page you need.
+// Lab files stay at /CD-first/* (typing hub, solver, lessons engines).
 const parentDir = path.join(__dirname, '..');
 app.use(express.static(parentDir));
 app.get('/health', (req, res) => res.json({ ok: true, players: io.engine.clientsCount }));
-app.get('/server-info', (req, res) => res.send('CD-first server running. Open / for portfolio+game, /health for status.'));
+app.get('/server-info', (req, res) => res.send('CD-first server running. Open / for the site, /health for status.'));
 
 const positions = new Map();
 
@@ -45,7 +45,7 @@ http.on('error', (e) => {
   throw e;
 });
 http.listen(PORT, '0.0.0.0', () => {
-  console.log(`CD-first single site on http://localhost:${PORT}/  (portfolio + game section)`);
+  console.log(`CD-first single site on http://localhost:${PORT}/  (portfolio + typing + solver + levels)`);
   console.log(`Health: http://localhost:${PORT}/health`);
   console.log(`If browser says ERR_CONNECTION_REFUSED, this server is not running — run: npm run dev`);
 });

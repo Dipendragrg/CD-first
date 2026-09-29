@@ -119,7 +119,7 @@ window.CDSolver = (() => {
     { k: ['form', 'email', 'valid'], a: 'Use <input type="email" required> — browser validates free. required on 2+ inputs, submit via <button type="submit"> inside <form>.' },
     { k: ['localstorage', 'reload', 'save', 'remember'], a: 'localStorage.setItem("k", JSON.stringify(arr)) to save; JSON.parse(localStorage.getItem("k") || "[]") to load. Only strings allowed — hence JSON.' },
     { k: ['loop', 'array', 'foreach', 'each'], a: 'Loop an array: arr.forEach(item => { ... }) or for (const x of arr) { ... }. Build HTML strings and set ul.innerHTML, or createElement per item.' },
-    { k: ['iframe', 'embed', 'game'], a: 'Embed a page: <iframe src="CD-first/index.html" style="width:100%;height:700px;border:0"></iframe>. Same-folder relative paths work on file:// too.' },
+    { k: ['iframe', 'embed', 'page'], a: 'Embed a page: <iframe src="CD-first/typing-hub.html" style="width:100%;height:700px;border:0"></iframe>. Same-folder relative paths work on file:// too.' },
     { k: ['what to do', 'instruction', 'task', 'start', 'stuck'], a: 'Read the 3–4 numbered steps above the editor, press Run to see your preview, then Check. Failing checks turn into exact hints — ask me "hint".' },
     { k: ['hint'], a: 'HINT-MODE' },
     { k: ['print', 'python', 'hello py'], a: 'Python prints with parentheses: print("Hello", name). No semicolons. Strings in "quotes".' },
