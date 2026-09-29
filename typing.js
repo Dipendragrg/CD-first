@@ -2,16 +2,19 @@
 // No backend — best scores in localStorage. Works on file:// and localhost.
 window.CDTyping = (() => {
   const PARAS = {
-    easy: ['The quick brown fox jumps over the lazy dog and runs to the river.',
-      'I love to code every day because practice makes every coder better and faster.'],
-    medium: ['Learning HTML, CSS and JavaScript opens the door to building fast, modern websites for everyone.',
-      'Consistency beats talent: type daily, build small projects, and review your mistakes carefully.'],
-    hard: ['const score = items.filter(x => x.done).reduce((a, b) => a + b.xp, 0); // total XP',
-      'Debugging is twice as hard as writing code; clever code is hard to debug.'],
-    code: ['<h1>Hello</h1> <a href="https://site.com">Visit</a> <img src="pic.png" alt="pic">',
-      'nav { display: flex; gap: 1rem; justify-content: space-between; }',
-      'btn.addEventListener("click", () => { count.textContent = Number(count.textContent) + 1; });',
-      'for i in range(1, 6): total = total + i # add numbers 1 to 5']
+    easy: ['The sun rises early in the morning and the birds sing sweet songs in the tall green trees near my house every single day.',
+      'I drink warm milk before school and I pack my bag with books, pencils and a small box of food my mother makes for me.',
+      'My best friend lives next door and we walk to school together while talking about cricket, games and our favourite teachers.'],
+    medium: ['Learning to code is like learning to cook: at first you follow every step slowly, but soon your hands remember the pattern and you start creating your own recipes.',
+      'Dipen opens his laptop every morning, writes one small program, and saves it with a proud smile, because small steps repeated daily build real skill over time.',
+      'If you want a responsive website, first write clean HTML for structure, then add CSS for beauty, and finally JavaScript to make every button come alive.'],
+    hard: ['The experienced programmer refactored the tangled legacy codebase, extracting reusable functions until the once-fragile system finally passed every single test with confidence.',
+      'Success rarely arrives overnight; it compounds quietly through disciplined practice, honest feedback, and the courage to rewrite what is broken instead of hiding it.',
+      'const total = cart.filter(item => item.stock > 0).map(item => item.price * item.qty).reduce((sum, n) => sum + n, 0); // checkout total'],
+    code: ['<section id="about"> <h2>About me</h2> <p>I am learning <a href="https://developer.mozilla.org">MDN docs</a> daily.</p> </section>',
+      '.card { display: flex; flex-direction: column; gap: 0.75rem; padding: 1.5rem; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }',
+      'form.addEventListener("submit", (e) => { e.preventDefault(); const name = document.getElementById("name").value.trim(); });',
+      'def greet(name): message = f"Namaste, {name}!" print(message) return message # greet("Dipen")']
   };
   const LS = 'cd-typing-best';
   const load = () => { try { return JSON.parse(localStorage.getItem(LS)) || {}; } catch { return {}; } };
