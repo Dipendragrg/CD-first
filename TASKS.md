@@ -34,6 +34,13 @@ This file is fetched by `index.html` → `#taskLog`, so the site, repo, and each
 - Verified: syntax all OK, module smoke 10/10, server serves learn+solver+typing, files ≤500 lines.
 - Files: `lessons.js`, `levels-submit.js`, `solver.js`, `typing.js`, portfolio `index.html` (local-only).
 
+## 2026-09-30 — De-AI pass + beginner audit
+- Online check: repo public, 11 commits, all files live; Pages NOT enabled (404) → enable in Settings → Pages → main/(root).
+- Full audit script: 13 anchors, 6 scripts, 25 lesson mappings, 9 solver↔levels links, 47 wiring ids — ALL GREEN.
+- Human voice: real hero (class 12, mornings, cricket), honest About, 3 real projects (arena/solversite/diary), dead social links replaced, personal footer.
+- Beginner: lesson-1 practice button (typing), readable inline code style, "now" line points to lesson 1.
+- Files: `lessons.js`, portfolio `index.html` (local-only).
+
 ## 2026-09-29 — Initial game + LEARN guide
 - Three.js Cube Arena: 1P vs bots, 2P local, online-ready relay.
 - Files: `index.html`, `client.js`, `style.css`, `server.js`, `package.json`, `README.md`, `LEARN.md`

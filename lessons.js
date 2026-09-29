@@ -23,7 +23,7 @@ window.CDLessons = (() => {
 
   const LESSONS = [
     { id: 'start', level: 'Start', title: 'How code actually runs (read this first)',
-      mins: '3 min', ticks: [], practice: null,
+      mins: '3 min', ticks: [], practice: { kind: 'typing', ref: 'easy', label: 'Try typing' },
       body: `<p>AI can write code for you — but <b>you</b> must know what happens next. Here is the whole secret:</p>
         <p>1. <b>HTML</b> = the bones. The browser reads your file top → bottom and builds the page.</p>
         <p>2. <b>CSS</b> = the paint. It recolors and rearranges what HTML built.</p>
