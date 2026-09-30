@@ -52,6 +52,13 @@ This file is fetched by `index.html` → `#taskLog`, so the site, repo, and each
 - Portable: portfolio moved INTO the repo (`index.html`), server serves its own folder + prints LAN URL for other computers/phones; README rewritten as any-computer setup; LEARN.md rewritten as file map.
 - Files: `projects.js`, `design.js`, `index.html`, `server.js`, `README.md`, `LEARN.md`.
 
+## 2026-09-30 — Thinking bot + learner-first + clearer tasks
+- `brain.js`: analyzes YOUR code (missing alt, unclosed tags, dead buttons, no print, tabs), builds numbered fix plans, defines 40+ terms with examples, explains WHY each rule is correct, admits what it doesn't know. 9/9 tested.
+- Solver verdicts now show "Why it matters" under the first ❌; ask box routes through the brain (voice still speaks replies).
+- Learner framing: Hire Me → Ask a Doubt, Contact → Ask anything!/Community; site is for learners, not clients.
+- All 13 task briefs/steps rewritten in plain words (no jargon, each step says what + where).
+- Files: `brain.js`, `solver.js`, `projects.js`, `index.html`.
+
 ## 2026-09-29 — Initial game + LEARN guide
 - Three.js Cube Arena: 1P vs bots, 2P local, online-ready relay.
 - Files: `index.html`, `client.js`, `style.css`, `server.js`, `package.json`, `README.md`, `LEARN.md`

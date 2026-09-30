@@ -10,8 +10,8 @@ window.CDSolver = (() => {
 
   const TASKS = [
     { id: 'solve-h1', level: 'HTML', levelTask: 'h1', title: 'Profile card in HTML',
-      brief: 'Make a small profile card: a name heading, a photo, and a link.',
-      steps: ['1. Add an <h1> with any name.', '2. Add an <img> with src and alt.', '3. Add an <a> link with an href (https://...).', 'Press Run to preview, then Check.'],
+      brief: 'Make a tiny profile card. Only three things: a name, a photo, a link.',
+      steps: ['1. Type <h1>, your name, then </h1> — every opener needs its closer.', '2. Add <img>: src is the photo address, alt is words if it breaks.', '3. Add <a>: href is the link address, words go between the tags.', 'Press Run to SEE it, then Check to prove it.'],
       starter: { html: '<h1>Your Name</h1>\n<!-- add img + link here -->', css: '', js: '' }, tab: 'html',
       checks: [
         { id: 'h1', desc: 'Has an <h1> heading', fn: (c, d) => has(c.html, /<h1[\s>]/i) && !!(d && d.querySelector('h1')) },
@@ -19,8 +19,8 @@ window.CDSolver = (() => {
         { id: 'a', desc: 'Has <a> link with href', fn: (c, d) => has(c.html, /<a[^>]*href=/i) && !!(d && d.querySelector('a[href]')) } ],
       hints: ['Start with <h1>Dipen</h1>.', 'Image: <img src="https://via.placeholder.com/150" alt="photo">.', 'Link: <a href="https://github.com">My GitHub</a>.'] },
     { id: 'solve-h2', level: 'HTML', levelTask: 'h2', title: 'Contact form',
-      brief: 'Build a form with name, email and a submit button. Email must validate.',
-      steps: ['1. Wrap inputs in a <form>.', '2. Add text input for name with required.', '3. Add <input type="email" required>.', '4. Add a <button type="submit">.'],
+      brief: 'Build a form that rejects bad email. Three parts: name box, email box, send button.',
+      steps: ['1. Wrap everything in <form>...</form> so one submit collects it all.', '2. Name box: <input type="text" required> — required blocks empty sends.', '3. Email box: <input type="email" required> — the browser checks the @ for you.', '4. <button type="submit">Send</button> — no button means no sending.'],
       starter: { html: '<form>\n  <!-- name + email + button -->\n</form>', css: '', js: '' }, tab: 'html',
       checks: [
         { id: 'form', desc: 'Inputs wrapped in <form>', fn: (c) => has(c.html, /<form[\s>]/i) },
@@ -28,8 +28,8 @@ window.CDSolver = (() => {
         { id: 'btn', desc: 'Submit button present', fn: (c, d) => has(c.html, /<button[^>]*type=["']submit["']/i) || !!(d && d.querySelector('button')) } ],
       hints: ['<input type="text" placeholder="Name" required>.', '<input type="email" placeholder="Email" required>.', '<button type="submit">Send</button>.'] },
     { id: 'solve-c1', level: 'CSS', levelTask: 'c1', title: 'Flexbox navbar',
-      brief: 'Turn plain links into a horizontal navbar using flexbox.',
-      steps: ['1. HTML: a <nav> with 3 links (already given).', '2. CSS: nav { display: flex; }.', '3. Add gap + justify-content: space-between.', '4. Style links: no underline, bold.'],
+      brief: 'Turn 3 stacked links into a side-by-side navbar. One CSS rule does the magic.',
+      steps: ['1. HTML is already given — work only in the CSS tab.', '2. nav { display: flex; } — children line up in a row.', '3. Add gap: 1rem for spaces and justify-content: space-between to spread them.', '4. nav a { text-decoration: none; font-weight: bold; } — links stop looking 1999.'],
       starter: { html: '<nav>\n  <a href="#">Home</a>\n  <a href="#">Game</a>\n  <a href="#">Contact</a>\n</nav>', css: '/* style nav + a here */', js: '' }, tab: 'css',
       checks: [
         { id: 'flex', desc: 'nav uses display: flex', fn: (c) => has(c.css, /display\s*:\s*flex/i) },
@@ -37,8 +37,8 @@ window.CDSolver = (() => {
         { id: 'links', desc: 'Links styled (no underline)', fn: (c) => has(c.css, /text-decoration\s*:\s*none/i) } ],
       hints: ['nav { display: flex; gap: 1rem; justify-content: space-between; }', 'nav a { text-decoration: none; font-weight: bold; }', 'Give nav a background + padding.'] },
     { id: 'solve-c2', level: 'CSS', levelTask: 'c3', title: 'Responsive box',
-      brief: 'A box that is wide on desktop but full-width on phones.',
-      steps: ['1. HTML: <div class="box">Hello</div> (given).', '2. CSS: .box width 400px + background.', '3. Add @media (max-width: 600px) making .box width 100%.'],
+      brief: 'One box, two sizes: wide on a laptop, full-width on a phone.',
+      steps: ['1. HTML is given — a <div class="box">. Touch only CSS.', '2. .box { width: 400px; background: ...; } so you can SEE it.', '3. @media (max-width: 600px) { .box { width: 100%; } } — small screens get full width.'],
       starter: { html: '<div class="box">Hello</div>', css: '.box {\n  /* width + background */\n}', js: '' }, tab: 'css',
       checks: [
         { id: 'box', desc: '.box has width + background', fn: (c) => has(c.css, /\.box/i) && has(c.css, /width\s*:/i) && has(c.css, /background/i) },
@@ -46,8 +46,8 @@ window.CDSolver = (() => {
         { id: 'live', desc: 'Preview shows the box', fn: (c, d) => !!(d && d.querySelector('.box')) } ],
       hints: ['.box { width: 400px; background: #4f46e5; color: white; padding: 2rem; }', '@media (max-width: 600px) { .box { width: 100%; } }', 'Press Run first — live checks need the preview.'] },
     { id: 'solve-j1', level: 'JavaScript', levelTask: 'j1', title: 'Click counter',
-      brief: 'A number + button. Each click adds 1. Bot clicks it for real to verify!',
-      steps: ['1. HTML given: span#count (0) + button#plus.', '2. JS: get both elements.', '3. addEventListener click → read number, +1, write back.'],
+      brief: 'A number on screen and a +1 button. My bot will REALLY click your button to verify.',
+      steps: ['1. HTML is given: <span id="count">0</span> and <button id="plus">. Touch only JS.', '2. Grab both with getElementById — wrong spelling gives null and crashes.', '3. On click: read the number, add 1, write it back with textContent.'],
       starter: { html: '<p>Count: <span id="count">0</span></p>\n<button id="plus">+1</button>', css: '', js: '// select elements + click handler' }, tab: 'js',
       checks: [
         { id: 'sel', desc: 'Selects elements (getElementById/querySelector)', fn: (c) => has(c.js, /getElementById|querySelector/i) },
@@ -63,8 +63,8 @@ window.CDSolver = (() => {
           } catch { return false; } } } ],
       hints: ['const out = document.getElementById("count");', 'document.getElementById("plus").addEventListener("click", () => { out.textContent = Number(out.textContent) + 1; });', 'The LIVE check really clicks — press Run, then Check.'] },
     { id: 'solve-j2', level: 'JavaScript', levelTask: 'j2', title: 'Mini todo (add item)',
-      brief: 'Type text, press Add → it appears in the list and survives reload.',
-      steps: ['1. HTML given: input#todo + button#add + ul#list.', '2. JS: on click, createElement li with input value, appendChild to ul.', '3. Save array to localStorage, load on start (bonus).'],
+      brief: 'Your first real app: type text, press Add, it appears — and survives reload.',
+      steps: ['1. HTML is given. Touch only JS.', '2. On click: make an <li> (createElement), fill it with the input words (textContent), stick it in the list (appendChild).', '3. Bonus: save the list with localStorage so a reload keeps it.'],
       starter: { html: '<input id="todo" placeholder="New task">\n<button id="add">Add</button>\n<ul id="list"></ul>', css: '', js: '// click handler here' }, tab: 'js',
       checks: [
         { id: 'create', desc: 'Creates li via createElement', fn: (c) => has(c.js, /createElement\s*\(\s*['"]li['"]/i) },
@@ -81,8 +81,8 @@ window.CDSolver = (() => {
           } catch { return false; } } } ],
       hints: ['document.getElementById("add").addEventListener("click", () => { ... });', 'const li = document.createElement("li"); li.textContent = input.value; list.appendChild(li);', 'Bonus: localStorage.setItem("todos", JSON.stringify([...])).'] },
     { id: 'solve-p1', kind: 'py', level: 'Python', levelTask: 'p1', title: 'Print + variables',
-      brief: 'Python prints text. Make it say hello with your name in it.',
-      steps: ['1. Tab Python, keep: name = "Dipen".', '2. Add: print("Hello", name).', '3. Press Run (needs internet once for Python), then Check.'],
+      brief: 'Your first Python: make the computer say hello with a name inside.',
+      steps: ['1. Open the Python tab. Keep: name = "Dipen" — a named box holding words.', '2. Under it add: print("Hello", name). print SHOWS — without it nothing appears.', '3. Press Run (internet needed once), read the output box, then Check.'],
       starter: { html: '', css: '', js: '', py: 'name = "Dipen"\n# print hello with name' }, tab: 'py', expected: 'Hello Dipen',
       checks: [
         { id: 'var', desc: 'Makes a name variable (=)', fn: (c) => has(c.py, /=/) },
@@ -90,8 +90,8 @@ window.CDSolver = (() => {
         { id: 'out', desc: 'Output says "Hello Dipen"', out: 'Hello Dipen' } ],
       hints: ['name = "Dipen"', 'print("Hello", name)', 'Output box must show: Hello Dipen'] },
     { id: 'solve-p2', kind: 'py', level: 'Python', levelTask: 'p3', title: 'Loop sum 1 to 5',
-      brief: 'Loops repeat work. Add 1+2+3+4+5 with a for loop and print 15.',
-      steps: ['1. total = 0 first.', '2. for i in range(1, 6): total = total + i  (indent 2 spaces).', '3. print(total). Run + Check.'],
+      brief: 'Add 1+2+3+4+5 without typing five numbers. A loop does the repeating.',
+      steps: ['1. Start the box: total = 0.', '2. for i in range(1, 6): means i becomes 1,2,3,4,5 (NOT 6). Indent the next line 2 spaces.', '3. Inside: total = total + i. Outside: print(total) must show 15.'],
       starter: { html: '', css: '', js: '', py: 'total = 0\n# loop 1..5 and add\nprint(total)' }, tab: 'py', expected: '15',
       checks: [
         { id: 'for', desc: 'Uses for ... in range(', fn: (c) => has(c.py, /for\s+\w+\s+in\s+range\s*\(/i) },
@@ -99,8 +99,8 @@ window.CDSolver = (() => {
         { id: 'out', desc: 'Output is 15', out: '15' } ],
       hints: ['for i in range(1, 6):', '    total = total + i  (indent matters!)', 'print(total)  → 15'] },
     { id: 'solve-p3', kind: 'py', level: 'Python', levelTask: 'p4', title: 'Your first function',
-      brief: 'Functions pack reusable code. greet("Ram") must print "Namaste Ram".',
-      steps: ['1. def greet(name):  + indented print("Namaste", name).', '2. Call it: greet("Ram").', '3. Run + Check.'],
+      brief: 'Pack code into a reusable function, then call it like ordering food.',
+      steps: ['1. def greet(name): is the recipe. Lines under it MUST be indented.', '2. Inside: print("Namaste", name). Outside: greet("Ram") places the order.', '3. Defining without calling runs NOTHING. Run + Check.'],
       starter: { html: '', css: '', js: '', py: '# define greet + call greet("Ram")' }, tab: 'py', expected: 'Namaste Ram',
       checks: [
         { id: 'def', desc: 'Defines def greet(', fn: (c) => has(c.py, /def\s+greet\s*\(/i) },
@@ -264,7 +264,13 @@ window.CDSolver = (() => {
     v.innerHTML = lastResults.map((r) =>
       '<div style="font-size:.88rem;margin:.25rem 0;">' + (r.pass ? '✅' : '❌') + ' ' + esc(r.desc) + '</div>').join('') +
       (all ? '<div style="margin-top:.4rem;font-weight:700;color:#16a34a;">🎉 Correct! XP added to Levels below.</div>'
-           : '<div style="margin-top:.4rem;color:var(--muted);font-size:.85rem;">Fix ❌ items, Run again, then Check. Type “hint” to the bot.</div>');
+           : '<div style="margin-top:.4rem;color:var(--muted);font-size:.85rem;">Fix ❌ items, Run again, then Check. Ask “hint” or “why”.</div>');
+    const firstMiss = lastResults.find((r) => !r.pass);
+    if (firstMiss && !all) {
+      try {
+        if (window.CDBrain && window.CDBrain.why) v.innerHTML += '<div style="margin-top:.4rem;font-size:.88rem;background:#eef2ff;border:1px solid #c7d2fe;border-radius:10px;padding:.5rem .7rem;">💡 <b>Why it matters:</b> ' + esc(window.CDBrain.why(firstMiss.id)) + '</div>';
+      } catch { /* brain optional */ }
+    }
     if (all) {
       const solved = load(LS_SOLVED, {});
       if (!solved[cur.id]) {
@@ -407,8 +413,12 @@ window.CDSolver = (() => {
     $(cfg.askBtn).onclick = () => {
       const q = $(cfg.askInput).value.trim();
       if (!q) return;
-      const a = answer(q);
       botSay('you', q);
+      let a = null;
+      try {
+        if (window.CDBrain) a = window.CDBrain.ask(q, { task: cur, results: lastResults, code: code[cur.id] });
+      } catch { a = null; }
+      if (!a) a = answer(q);
       botSay('bot', a);
       speakReply(a);
       $(cfg.askInput).value = '';

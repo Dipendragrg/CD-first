@@ -39,7 +39,7 @@ window.CDProjects = (() => {
           } catch { return false; } } } ],
       hints: ['document.getElementById("vform").addEventListener("submit", (e) => { e.preventDefault(); ... });', 'if (name.value.trim().length < 2) err.textContent = "Too short!"; else err.textContent = "";', 'The LIVE check submits with 1 letter — error must appear.'] },
     { id: 'solve-b4', level: 'Python', levelTask: 'p2', title: 'Build: bill splitter',
-      brief: 'Price × qty with discount, split 3 ways, print with f-string.',
+      brief: 'A shop bill: price 120 × qty 3, split 3 ways. Print it nicely with an f-string.',
       steps: ['1. price = 120, qty = 3.', '2. total = price * qty; each = total / 3.', '3. print(f"Each pays {each}") → Each pays 120.0.'],
       starter: { html: '', css: '', js: '', py: 'price = 120\nqty = 3\n# total, each, print f-string' }, tab: 'py', kind: 'py', expected: '120',
       checks: [
