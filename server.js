@@ -1,6 +1,7 @@
 // CD-first learning-site server: portfolio + typing/solver/levels (Node + Socket.io relay kept for later)
 // Run: npm install && npm run dev -> open http://localhost:3000/ (single site, no blank text page)
 import express from 'express';
+import os from 'os';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
@@ -14,11 +15,9 @@ const app = express();
 const http = createServer(app);
 const io = new Server(http, { cors: { origin: '*' } });
 
-// Single-site serving: portfolio (parent) at / with typing + solver + levels sections.
-// http://localhost:3000/ -> the ONLY page you need.
-// Lab files stay at /CD-first/* (typing hub, solver, lessons engines).
-const parentDir = path.join(__dirname, '..');
-app.use(express.static(parentDir));
+// Self-contained site: this folder IS the website. Clone anywhere, npm install, npm run dev.
+// http://localhost:3000/ -> portfolio (index.html) with typing + solver + levels sections.
+app.use(express.static(__dirname));
 app.get('/health', (req, res) => res.json({ ok: true, players: io.engine.clientsCount }));
 app.get('/server-info', (req, res) => res.send('CD-first server running. Open / for the site, /health for status.'));
 
@@ -44,8 +43,17 @@ http.on('error', (e) => {
   }
   throw e;
 });
+function lanIP() {
+  for (const nets of Object.values(os.networkInterfaces())) {
+    for (const n of nets || []) {
+      if (n.family === 'IPv4' && !n.internal) return n.address;
+    }
+  }
+  return 'localhost';
+}
 http.listen(PORT, '0.0.0.0', () => {
-  console.log(`CD-first single site on http://localhost:${PORT}/  (portfolio + typing + solver + levels)`);
+  console.log(`CD-first site on http://localhost:${PORT}/  (portfolio + typing + solver + levels)`);
+  console.log(`Same WiFi? Open http://${lanIP()}:${PORT}/ on another computer or phone.`);
   console.log(`Health: http://localhost:${PORT}/health`);
   console.log(`If browser says ERR_CONNECTION_REFUSED, this server is not running — run: npm run dev`);
 });

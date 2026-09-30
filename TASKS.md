@@ -46,6 +46,12 @@ This file is fetched by `index.html` → `#taskLog`, so the site, repo, and each
 - Cleaned all live refs: Levels tracks (HTML/CSS/JS/Python), lessons, solver bot example, package description, server messages. History docs untouched.
 - Typing Hub is the fullscreen practice page; socket relay kept in server for later.
 
+## 2026-09-30 — Project builds + UI/UX studio + runs on any computer
+- `projects.js`: 4 guided builds (scoreboard table, card grid, validated form, bill splitter) plugged into Solver via `addTasks`; XP + locks included.
+- `#design` UI/UX Studio (`design.js`): theme knobs + live preview + copyable CSS, WCAG contrast checker, 5 designer rules.
+- Portable: portfolio moved INTO the repo (`index.html`), server serves its own folder + prints LAN URL for other computers/phones; README rewritten as any-computer setup; LEARN.md rewritten as file map.
+- Files: `projects.js`, `design.js`, `index.html`, `server.js`, `README.md`, `LEARN.md`.
+
 ## 2026-09-29 — Initial game + LEARN guide
 - Three.js Cube Arena: 1P vs bots, 2P local, online-ready relay.
 - Files: `index.html`, `client.js`, `style.css`, `server.js`, `package.json`, `README.md`, `LEARN.md`

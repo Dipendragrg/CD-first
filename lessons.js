@@ -134,7 +134,7 @@ window.CDLessons = (() => {
     });
     root.querySelectorAll('[data-goto]').forEach((b) => { b.onclick = () => { location.hash = b.dataset.goto; }; });
     root.querySelectorAll('[data-game]').forEach((b) => {
-      b.onclick = () => window.open('CD-first/typing-hub.html', '_blank');
+      b.onclick = () => window.open('typing-hub.html', '_blank');
     });
   }
 

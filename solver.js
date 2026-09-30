@@ -119,7 +119,7 @@ window.CDSolver = (() => {
     { k: ['form', 'email', 'valid'], a: 'Use <input type="email" required> — browser validates free. required on 2+ inputs, submit via <button type="submit"> inside <form>.' },
     { k: ['localstorage', 'reload', 'save', 'remember'], a: 'localStorage.setItem("k", JSON.stringify(arr)) to save; JSON.parse(localStorage.getItem("k") || "[]") to load. Only strings allowed — hence JSON.' },
     { k: ['loop', 'array', 'foreach', 'each'], a: 'Loop an array: arr.forEach(item => { ... }) or for (const x of arr) { ... }. Build HTML strings and set ul.innerHTML, or createElement per item.' },
-    { k: ['iframe', 'embed', 'page'], a: 'Embed a page: <iframe src="CD-first/typing-hub.html" style="width:100%;height:700px;border:0"></iframe>. Same-folder relative paths work on file:// too.' },
+    { k: ['iframe', 'embed', 'page'], a: 'Embed a page: <iframe src="typing-hub.html" style="width:100%;height:700px;border:0"></iframe>. Same-folder relative paths work on file:// too.' },
     { k: ['what to do', 'instruction', 'task', 'start', 'stuck'], a: 'Read the 3–4 numbered steps above the editor, press Run to see your preview, then Check. Failing checks turn into exact hints — ask me "hint".' },
     { k: ['hint'], a: 'HINT-MODE' },
     { k: ['print', 'python', 'hello py'], a: 'Python prints with parentheses: print("Hello", name). No semicolons. Strings in "quotes".' },
@@ -282,6 +282,9 @@ window.CDSolver = (() => {
   }
   }
 
+  function addTasks(arr) {
+    (arr || []).forEach((t) => { if (t && t.id && !TASKS.some((x) => x.id === t.id)) TASKS.push(t); });
+  }
   function openLevel(lt) {
     const t = TASKS.find((x) => x.levelTask === lt) || TASKS[0];
     selectTask(t.id);
@@ -442,5 +445,5 @@ window.CDSolver = (() => {
     botSay('bot', 'Welcome to Solver Lab! Path: <b>HTML → CSS → JavaScript → Python</b>. Start with task 1, press <b>Run</b> then <b>Check</b>. Type to get VS Code-style hints, or ask me — try “how do I center a div?”');
   }
 
-  return { init, openLevel };
+  return { init, openLevel, addTasks };
 })();
