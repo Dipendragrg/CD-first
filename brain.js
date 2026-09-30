@@ -148,6 +148,89 @@ window.CDBrain = (() => {
     if (!steps.length) steps.push({ t: 'All green — lock it in', why: 'Correct code you cannot explain fades. Tell the bot "why" for any check to cement it.' });
     return steps;
   }
+  // ready-to-paste starter code: [tab, title, code, why-it-works]
+  const TEMPLATES = {
+    portfolio: ['html', 'Mini portfolio page',
+      '<h1>Dipen</h1>\n<img src="me.png" alt="My photo">\n<p>Class 12 student from Nepal. I am learning to code.</p>\n<a href="https://github.com">My GitHub</a>',
+      'Heading + photo + words + link = every portfolio ever. Paste in HTML tab, Run, then restyle it with CSS.'],
+    navbar: ['html', 'Navbar bones',
+      '<nav>\n  <a href="#">Home</a>\n  <a href="#">Learn</a>\n  <a href="#">Contact</a>\n</nav>',
+      'nav groups links; CSS flex (Solver CSS task 1) lays them in a row.'],
+    card: ['html', 'Card block',
+      '<div class="card">\n  <h2>My card</h2>\n  <p>Short words go here.</p>\n</div>',
+      'div groups, class names it for CSS. One .card rule styles every card.'],
+    form: ['html', 'Contact form',
+      '<form>\n  <input type="text" placeholder="Name" required>\n  <input type="email" placeholder="Email" required>\n  <button type="submit">Send</button>\n</form>',
+      'required + type=email = browser validates free. Matches Solver HTML task 2.'],
+    table: ['html', 'Scoreboard table',
+      '<table>\n  <thead><tr><th>Player</th><th>Runs</th></tr></thead>\n  <tbody>\n    <tr><td>Ram</td><td>45</td></tr>\n    <tr><td>Sita</td><td>52</td></tr>\n    <tr><td>Hari</td><td>38</td></tr>\n  </tbody>\n</table>',
+      'thead labels, tbody holds data. Try it as project build 1.'],
+    footer: ['html', 'Page footer',
+      '<footer>\n  <p>Made by Dipen, 2026.</p>\n</footer>',
+      'footer closes the page semantically — browsers + readers know it is the end.'],
+    hero: ['html', 'Hero section',
+      '<section>\n  <h1>Learn to code</h1>\n  <p>Small steps daily.</p>\n  <button>Start</button>\n</section>',
+      'Hero = first screen: big promise + one action. section groups it.'],
+    button: ['html', 'Button that does nothing (yet)',
+      '<button>Click me</button>',
+      'Alone it is dead — JS addEventListener wakes it (Solver JS task 1).'],
+    grid: ['css', '3-column card grid',
+      '.grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }\n.card { background: white; padding: 1.5rem; border-radius: 12px; }\n.card:hover { transform: translateY(-4px); }',
+      'grid makes columns, gap spaces them, :hover lifts. Paste in CSS tab with 3 divs in HTML.'],
+    flex: ['css', 'Flexbox navbar CSS',
+      'nav { display: flex; gap: 1rem; justify-content: space-between; align-items: center; }\nnav a { text-decoration: none; font-weight: bold; }',
+      'One rule rows the links; the second styles them. Matches Solver CSS task 1.'],
+    center: ['css', 'Dead-center anything',
+      '.box { width: 300px; margin: 0 auto; text-align: center; }',
+      'margin auto centers blocks, text-align centers words inside.'],
+    responsive: ['css', 'Phone-size override',
+      '@media (max-width: 600px) { .box { width: 100%; } }',
+      'Small screens get full width. Put AFTER desktop rules so it wins.'],
+    counter: ['js', 'Click counter JS',
+      'const out = document.getElementById("count");\ndocument.getElementById("plus").addEventListener("click", () => {\n  out.textContent = Number(out.textContent) + 1;\n});',
+      'Grab once, listen for clicks, read-write the number. Needs the task-1 HTML present.'],
+    todo: ['js', 'Todo adder JS',
+      'const input = document.getElementById("todo");\nconst list = document.getElementById("list");\ndocument.getElementById("add").addEventListener("click", () => {\n  const li = document.createElement("li");\n  li.textContent = input.value;\n  list.appendChild(li);\n});',
+      'Create, fill, append — the three moves of dynamic pages.'],
+    print: ['py', 'Hello with a name',
+      'name = "Dipen"\nprint("Hello", name)',
+      'Variable stores, print shows. No print = no output.'],
+    loop: ['py', 'Sum 1 to 5',
+      'total = 0\nfor i in range(1, 6):\n    total = total + i\nprint(total)',
+      'range end is excluded: 1..5. Indent the repeated line.'],
+    function: ['py', 'Greet function',
+      'def greet(name):\n    print("Namaste", name)\n\ngreet("Ram")',
+      'Define (recipe) then call (order). Uncalled code never runs.']
+  };
+  const GEN_VERB = /(give|make|write|build|create|show|generate|need|want|example|sample|snippet|code for|get me)/;
+  function genMatch(sl) {
+    if (!GEN_VERB.test(sl) && !sl.includes('code') && !sl.includes('portfolio')) return null;
+    const has = (...ws) => ws.some((w) => sl.includes(w));
+    if (has('portfolio', 'my page', 'my site', 'about me page')) return 'portfolio';
+    if (has('navbar', 'nav bar', 'navigation')) return 'navbar';
+    if (has('hero')) return 'hero';
+    if (has('footer')) return 'footer';
+    if (has('table', 'scoreboard')) return 'table';
+    if (has('form', 'contact form')) return 'form';
+    if (has('grid', 'gallery', '3 cards', 'three cards')) return 'grid';
+    if (has('counter', 'clicker', 'plus one', '+1')) return 'counter';
+    if (has('todo', 'to-do', 'to do')) return 'todo';
+    if (has('responsive', 'media query', 'mobile layout')) return 'responsive';
+    if (has('center', 'middle', 'centre')) return 'center';
+    if (has('flex')) return 'flex';
+    if (has('button') && !has('counter')) return 'button';
+    if (has('card')) return 'card';
+    if (has('function', 'def ', 'greet')) return 'function';
+    if (has('loop', 'range', 'sum')) return 'loop';
+    if (has('print', 'hello', 'variable')) return 'print';
+    return null;
+  }
+  function genReply(key) {
+    const t = TEMPLATES[key];
+    return '<b>✍️ ' + esc(t[1]) + '</b> — paste into the <b>' + t[0].toUpperCase() + '</b> tab, press Run:' +
+      '<pre style="background:#0f172a;color:#a7f3d0;border-radius:10px;padding:.7rem;overflow:auto;font-size:.78rem;white-space:pre-wrap;">' +
+      esc(t[2]) + '</pre>💡 <b>Why this works:</b> ' + esc(t[3]);
+  }
   function ask(q, ctx) {
     const s = (q || '').trim();
     const sl = s.toLowerCase();
@@ -160,6 +243,8 @@ window.CDBrain = (() => {
       if (k) return card(k);
       return 'I do not have "<b>' + esc(m[2]) + '</b>" in my notebook yet. Try: tag, flexbox, listener, loop, indent, contrast — or ask "how do I …".';
     }
+    const gen = genMatch(sl);
+    if (gen) return genReply(gen);
     if (/\bhint\b|\bstuck\b|\bhelp\b/.test(sl) || /^how (do i|to|can)/.test(sl)) {
       if (!task) return 'Pick a Solver task first (above the editor), then ask — I plan around YOUR task and YOUR code.';
       const steps = plan(task, results, code);
@@ -188,7 +273,7 @@ window.CDBrain = (() => {
     }
     const k = conceptOf(sl);
     if (k) return card(k) + (task ? '<br>Applies to <b>' + esc(task.title) + '</b>: fix the ❌ checks, then Check again.' : '');
-    return 'I analyze <b>your task + your code</b>, so give me something to chew on:<br>1. "hint" → step-by-step plan<br>2. "why …?" → reason a rule is correct<br>3. "what is …?" → definition + example<br>4. Paste your broken line → diagnosis' +
+    return 'I analyze <b>your task + your code</b>, so give me something to chew on:<br>0. "write me a portfolio / navbar / form" → starter code<br>1. "hint" → step-by-step plan<br>2. "why …?" → reason a rule is correct<br>3. "what is …?" → definition + example<br>4. Paste your broken line → diagnosis' +
       (task ? '<br>Current task: <b>' + esc(task.title) + '</b>.' : '<br>Tip: pick a Solver task first so I see your code.');
   }
   function why(id) { return WHY[id] || 'it proves one real, checkable skill.'; }

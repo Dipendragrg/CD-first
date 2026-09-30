@@ -59,6 +59,11 @@ This file is fetched by `index.html` → `#taskLog`, so the site, repo, and each
 - All 13 task briefs/steps rewritten in plain words (no jargon, each step says what + where).
 - Files: `brain.js`, `solver.js`, `projects.js`, `index.html`.
 
+## 2026-09-30 — Bot writes code + deep bug hunt
+- Generation intent: "give/write/make me X" returns paste-ready code (portfolio, navbar, card, form, table, footer, hero, grid, flex, counter, todo, print, loop, function) with tab + why. 8/8 tested.
+- Full-context hunt: fixed lesson tick naming deleted `client.js`; lesson tick label now matches Levels task; audit script repointed to repo; verified no dup ids, no dead refs, no leftovers.
+- Files: `brain.js`, `lessons.js`.
+
 ## 2026-09-29 — Initial game + LEARN guide
 - Three.js Cube Arena: 1P vs bots, 2P local, online-ready relay.
 - Files: `index.html`, `client.js`, `style.css`, `server.js`, `package.json`, `README.md`, `LEARN.md`

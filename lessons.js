@@ -50,7 +50,7 @@ window.CDLessons = (() => {
       mins: '4 min', ticks: [], practice: { kind: 'solver', ref: 'c3', label: 'Code: responsive box' },
       body: `<p>Phones are narrow — so CSS asks the screen width: <code>@media (max-width: 600px) { .box { width:100% } }</code>. Rules inside win on small screens. Put media queries <b>after</b> desktop rules.</p>` },
     { id: 'js-alive', level: 'JavaScript', title: 'JS finds things and reacts',
-      mins: '6 min', ticks: [{ id: 'j5', label: 'I changed bot speed in client.js' }],
+      mins: '6 min', ticks: [{ id: 'j5', label: 'I changed a paragraph in typing.js' }],
       practice: { kind: 'solver', ref: 'j1', label: 'Code: click counter' },
       body: `<p>JavaScript runs <b>after</b> the HTML exists. Two moves do 90% of everything:</p>
         <p>1. <b>Find:</b> <code>document.getElementById("count")</code>. Wrong id → <code>null</code> → errors. Ids must match exactly.</p>
